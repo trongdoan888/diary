@@ -1,0 +1,320 @@
+/* Bảng màu Driven bởi Bubu & Dudu */
+:root {
+    --bg-color: #fdf6e3; /* Màu kem giấy nhạt (Bubu) */
+    --book-color: #fffcf0; /* Trắng ngà card nhật ký */
+    --accent-dudu-pink: #fca5a5; /* Hồng phấn (Má hồng Dudu) */
+    --accent-bubu-brown: #8b7355; /* Nâu ấm (Lông Bubu) */
+    --text-color: #5c4a3d; /* Nâu đậm cho chữ */
+    --line-color: rgba(92, 74, 61, 0.15); /* Màu đường kẻ mờ */
+    --binding-color: rgba(139, 115, 85, 0.3); /* Màu gáy lò xo */
+    --btn-hover-pink: #fecdd3;
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image: url('assets/img/bubu_dudu_pattern.png'); /* Pattern nền mờ */
+    background-repeat: repeat;
+    background-size: 200px;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 15px 30px;
+    box-sizing: border-box;
+    position: absolute; /* Trôi nổi */
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+    padding: 80px 40px 40px; /* Thấp hơn header */
+    width: 100%;
+}
+
+/* THIẾT KẾ QUYỂN NHẬT KÝ KHỔNG LỒ */
+.diary-book {
+    background-color: var(--book-color);
+    width: 85%;
+    max-width: 950px; /* To hơn đáng kể */
+    height: 75vh; /* Cao hơn */
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    border: 1px solid #d4c5b9;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Phần gáy lò xo */
+.diary-binding {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background-color: var(--binding-color);
+    z-index: 5;
+}
+
+.diary-binding::before, .diary-binding::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: var(--accent-bubu-brown);
+    border-radius: 50%;
+    border: 1px solid white;
+}
+.diary-binding::before { top: 30px; left: -4px; }
+.diary-binding::after { bottom: 30px; left: -4px; }
+
+.book-page {
+    width: 50%;
+    height: 100%;
+    padding: 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.left-page {
+    border-right: 1px solid var(--line-color);
+}
+
+.page-number {
+    font-size: 0.9em;
+    color: var(--accent-bubu-brown);
+    position: absolute;
+    font-weight: bold;
+}
+.top-left { top: 25px; left: 30px; }
+.top-right { top: 25px; right: 30px; }
+
+.image-container-diary {
+    width: 100%;
+    height: 60%; /* To hơn ảnh cũ */
+    margin-bottom: 25px;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border: 2px solid var(--accent-bubu-brown);
+}
+
+#page-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Giữ tỷ lệ ảnh khít khung */
+    display: block;
+}
+
+/* TRÌNH PHÁT NHẠC NHẬT KÝ */
+.music-player-diary {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: -10px;
+}
+
+.music-btn {
+    background: none;
+    border: none;
+    color: var(--accent-dudu-pink);
+    font-size: 2.2em; /* To hơn */
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.music-btn:hover {
+    color: #f87171;
+    transform: scale(1.1);
+}
+
+.progress-container {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--accent-dudu-pink);
+    border-radius: 4px;
+    width: 0%;
+}
+
+.progress-seeker {
+    width: 14px;
+    height: 14px;
+    background-color: var(--accent-dudu-pink);
+    border-radius: 50%;
+    position: absolute;
+    top: -3px;
+    transform: translateX(-50%);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* THIẾT KẾ GIẤY KẺ NGANG */
+.ruled-paper {
+    background-image: 
+        linear-gradient(var(--line-color) 1.2px, transparent 1.2px);
+    background-size: 100% 30px; /* Chiều cao đường kẻ */
+    background-position: 0 40px; /* Bắt đầu sau margin top */
+    background-attachment: local;
+}
+
+.message-container-diary {
+    width: 100%;
+    flex-grow: 1;
+    margin-top: 15px;
+}
+
+#page-message-display, .ruled-textarea {
+    width: 100%;
+    font-size: 1.1em;
+    line-height: 30px; /* Khớp với background-size */
+    box-sizing: border-box;
+    color: #444;
+}
+
+#page-message-display {
+    padding: 0 10px;
+    background-color: transparent;
+    font-family: 'Segoe UI', serif; /* Font chữ thơ hơn */
+}
+
+.ruled-textarea {
+    height: 100%; /* Chiếm hết container */
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 1px dashed var(--accent-bubu-brown);
+    resize: none;
+    padding: 0 10px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* NÚT ĐIỀU HƯỚNG */
+.nav-btn {
+    padding: 10px 22px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+}
+
+.top-btn {
+    background-color: var(--accent-bubu-brown);
+    color: white;
+}
+
+.top-btn:hover {
+    background-color: #725d45;
+}
+
+.edit-btn-diary {
+    background-color: transparent;
+    border: 1.5px solid var(--accent-bubu-brown);
+    color: var(--accent-bubu-brown);
+    margin-top: 15px;
+    align-self: flex-end; /* Nằm dưới, bên phải */
+}
+
+.edit-btn-diary:hover {
+    background-color: #725d45;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Nút lật trang Paw Print */
+.main-nav-buttons {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.nav-arrow-paw {
+    background-color: var(--accent-dudu-pink);
+    color: white;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 2.1em;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: background 0.2s, transform 0.2s;
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-arrow-paw:hover {
+    background-color: #f87171;
+}
+
+/* === KEYFRAMES ANIMATION === */
+
+/* Phồng lên nhẹ (Thêm trang) */
+.pulse-btn:hover {
+    animation: btnPulse 0.5s infinite alternate;
+}
+@keyframes btnPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.06); }
+}
+
+/* Lắc lư nhẹ (Paw Buttons) */
+.wobble-btn:hover {
+    animation: btnWobble 0.3s ease-in-out;
+}
+@keyframes btnWobble {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Đập (Music Trái tim) */
+.pulse-on-play.playing {
+    animation: musicPulse 0.8s infinite alternate ease-in-out;
+}
+@keyframes musicPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); color: #f87171; }
+}

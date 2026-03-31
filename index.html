@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhật Ký Bubu Dudu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <button class="nav-btn top-btn pulse-btn" id="add-page-btn">
+            <i class="fas fa-plus"></i> Thêm trang mới
+        </button>
+    </header>
+
+    <main class="container">
+        <div class="main-nav-buttons">
+            <button class="nav-arrow-paw wobble-btn" id="prev-btn">
+                <i class="fas fa-paw"></i>
+            </button>
+            <button class="nav-arrow-paw wobble-btn" id="next-btn">
+                <i class="fas fa-paw"></i>
+            </button>
+        </div>
+
+        <div class="diary-book">
+            <div class="diary-binding"></div>
+
+            <div class="book-page left-page">
+                <div class="page-number top-left" id="page-number-display-left">Page 1</div>
+                
+                <div class="image-container-diary">
+                    <img id="page-image" src="assets/img/bubu_dudu_concept.png" alt="Ảnh hoặc GIF động Bubu Dudu">
+                </div>
+
+                <div class="music-player-diary">
+                    <button class="music-btn pulse-on-play" id="play-pause-btn">
+                        <i class="fas fa-heart"></i> </button>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                            <div class="progress-seeker" id="progress-seeker"></div>
+                        </div>
+                    </div>
+                    <audio id="page-audio"></audio>
+                </div>
+            </div>
+
+            <div class="book-page right-page ruled-paper">
+                <div class="page-number top-right" id="page-number-display-right">Page 2</div>
+                
+                <div class="message-container-diary">
+                    <div id="page-message-display">Hôm nay hai đứa cùng nhau vẽ tranh, Bubu vẽ trái tim thật đẹp. Tự hào về bản thân vì đã luôn cố gắng.</div>
+                    <textarea id="edit-textarea" class="hidden ruled-textarea"></textarea>
+                </div>
+
+                <button class="nav-btn edit-btn-diary" id="edit-btn">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
