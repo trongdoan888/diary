@@ -1,18 +1,18 @@
 /* Bảng màu Driven bởi Bubu & Dudu */
 :root {
-    --bg-color: #fdf6e3; /* Màu kem giấy nhạt (Bubu) */
-    --book-color: #fffcf0; /* Trắng ngà card nhật ký */
-    --accent-dudu-pink: #fca5a5; /* Hồng phấn (Má hồng Dudu) */
-    --accent-bubu-brown: #8b7355; /* Nâu ấm (Lông Bubu) */
-    --text-color: #5c4a3d; /* Nâu đậm cho chữ */
-    --line-color: rgba(92, 74, 61, 0.15); /* Màu đường kẻ mờ */
-    --binding-color: rgba(139, 115, 85, 0.3); /* Màu gáy lò xo */
+    --bg-color: #fdf6e3; 
+    --book-color: #fffcf0; 
+    --accent-dudu-pink: #fca5a5; 
+    --accent-bubu-brown: #8b7355; 
+    --text-color: #5c4a3d; 
+    --line-color: rgba(92, 74, 61, 0.15); 
+    --binding-color: rgba(139, 115, 85, 0.3); 
     --btn-hover-pink: #fecdd3;
 }
 
 body {
     background-color: var(--bg-color);
-    background-image: url('assets/img/bubu_dudu_pattern.png'); /* Pattern nền mờ */
+    background-image: url('assets/img/bubu_dudu_pattern.png'); 
     background-repeat: repeat;
     background-size: 200px;
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
@@ -30,28 +30,32 @@ header {
     justify-content: flex-start;
     padding: 15px 30px;
     box-sizing: border-box;
-    position: absolute; /* Trôi nổi */
+    position: absolute; 
     top: 0;
     left: 0;
     z-index: 10;
 }
 
+/* Dàn hàng ngang để cân đối 2 nút Paw Print ở 2 bên sách */
 .container {
     display: flex;
+    flex-direction: row; 
     justify-content: center;
     align-items: center;
+    gap: 40px; 
     flex-grow: 1;
     position: relative;
-    padding: 80px 40px 40px; /* Thấp hơn header */
+    padding: 80px 20px 40px; 
     width: 100%;
+    box-sizing: border-box;
 }
 
-/* THIẾT KẾ QUYỂN NHẬT KÝ KHỔNG LỒ */
+/* QUYỂN NHẬT KÝ */
 .diary-book {
     background-color: var(--book-color);
-    width: 85%;
-    max-width: 950px; /* To hơn đáng kể */
-    height: 75vh; /* Cao hơn */
+    width: 100%;
+    max-width: 950px; 
+    height: 75vh; 
     display: flex;
     border-radius: 20px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.1);
@@ -60,7 +64,6 @@ header {
     overflow: hidden;
 }
 
-/* Phần gáy lò xo */
 .diary-binding {
     position: absolute;
     top: 0;
@@ -95,9 +98,7 @@ header {
     position: relative;
 }
 
-.left-page {
-    border-right: 1px solid var(--line-color);
-}
+.left-page { border-right: 1px solid var(--line-color); }
 
 .page-number {
     font-size: 0.9em;
@@ -108,10 +109,18 @@ header {
 .top-left { top: 25px; left: 30px; }
 .top-right { top: 25px; right: 30px; }
 
+/* KHU VỰC ẢNH */
+.image-wrapper {
+    width: 100%;
+    height: 55%;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
 .image-container-diary {
     width: 100%;
-    height: 60%; /* To hơn ảnh cũ */
-    margin-bottom: 25px;
+    height: 100%;
     border-radius: 15px;
     overflow: hidden;
     background-color: #f0f0f0;
@@ -121,11 +130,11 @@ header {
 #page-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Giữ tỷ lệ ảnh khít khung */
+    object-fit: cover; 
     display: block;
 }
 
-/* TRÌNH PHÁT NHẠC NHẬT KÝ */
+/* TRÌNH PHÁT NHẠC */
 .music-player-diary {
     width: 100%;
     display: flex;
@@ -140,181 +149,115 @@ header {
     background: none;
     border: none;
     color: var(--accent-dudu-pink);
-    font-size: 2.2em; /* To hơn */
+    font-size: 2.2em; 
     cursor: pointer;
     transition: transform 0.2s, color 0.2s;
 }
 
-.music-btn:hover {
-    color: #f87171;
-    transform: scale(1.1);
-}
+.music-btn:hover { color: #f87171; transform: scale(1.1); }
 
 .progress-container {
-    flex-grow: 1;
-    height: 8px;
-    background-color: #ddd;
-    border-radius: 4px;
-    position: relative;
-    cursor: pointer;
+    flex-grow: 1; height: 8px; background-color: #ddd; border-radius: 4px; position: relative; cursor: pointer;
 }
-
-.progress-fill {
-    height: 100%;
-    background-color: var(--accent-dudu-pink);
-    border-radius: 4px;
-    width: 0%;
-}
-
+.progress-fill { height: 100%; background-color: var(--accent-dudu-pink); border-radius: 4px; width: 0%; }
 .progress-seeker {
-    width: 14px;
-    height: 14px;
-    background-color: var(--accent-dudu-pink);
-    border-radius: 50%;
-    position: absolute;
-    top: -3px;
-    transform: translateX(-50%);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    width: 14px; height: 14px; background-color: var(--accent-dudu-pink); border-radius: 50%;
+    position: absolute; top: -3px; transform: translateX(-50%); box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-/* THIẾT KẾ GIẤY KẺ NGANG */
-.ruled-paper {
-    background-image: 
-        linear-gradient(var(--line-color) 1.2px, transparent 1.2px);
-    background-size: 100% 30px; /* Chiều cao đường kẻ */
-    background-position: 0 40px; /* Bắt đầu sau margin top */
-    background-attachment: local;
-}
-
-.message-container-diary {
+/* LỜI BÀI HÁT */
+.lyrics-container {
     width: 100%;
     flex-grow: 1;
-    margin-top: 15px;
+    margin-top: 10px;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
+
+.lyrics-text {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #8b7355;
+    line-height: 1.6;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 0 15px;
+    white-space: pre-line; 
+}
+
+/* Ô NHẬP TÙY CHỈNH */
+.custom-input {
+    width: 100%; padding: 8px 10px; margin-top: 10px; border: 1.5px dashed var(--accent-bubu-brown);
+    border-radius: 8px; background-color: rgba(255, 255, 255, 0.6); font-family: inherit;
+    color: var(--text-color); box-sizing: border-box;
+}
+
+.lyrics-edit { flex-grow: 1; resize: none; margin-top: 0; }
+
+/* GIẤY KẺ NGANG */
+.ruled-paper {
+    background-image: linear-gradient(var(--line-color) 1.2px, transparent 1.2px);
+    background-size: 100% 30px; background-position: 0 40px; background-attachment: local;
+}
+
+.message-container-diary { width: 100%; flex-grow: 1; margin-top: 15px; }
 
 #page-message-display, .ruled-textarea {
-    width: 100%;
-    font-size: 1.1em;
-    line-height: 30px; /* Khớp với background-size */
-    box-sizing: border-box;
-    color: #444;
+    width: 100%; font-size: 1.1em; line-height: 30px; box-sizing: border-box; color: #444;
 }
 
 #page-message-display {
-    padding: 0 10px;
-    background-color: transparent;
-    font-family: 'Segoe UI', serif; /* Font chữ thơ hơn */
+    padding: 0 10px; background-color: transparent; font-family: 'Segoe UI', serif; white-space: pre-line; 
 }
 
 .ruled-textarea {
-    height: 100%; /* Chiếm hết container */
-    background-color: rgba(255, 255, 255, 0.4);
-    border: 1px dashed var(--accent-bubu-brown);
-    resize: none;
-    padding: 0 10px;
+    height: 100%; background-color: rgba(255, 255, 255, 0.4); border: 1px dashed var(--accent-bubu-brown);
+    resize: none; padding: 0 10px; font-family: inherit;
 }
 
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
 
-/* NÚT ĐIỀU HƯỚNG */
+/* NÚT BẤM CHUNG */
 .nav-btn {
-    padding: 10px 22px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background 0.2s, transform 0.2s;
-    border: none;
+    padding: 10px 22px; border-radius: 20px; cursor: pointer; font-size: 1em;
+    transition: background 0.2s, transform 0.2s; border: none;
 }
-
-.top-btn {
-    background-color: var(--accent-bubu-brown);
-    color: white;
-}
-
-.top-btn:hover {
-    background-color: #725d45;
-}
+.top-btn { background-color: var(--accent-bubu-brown); color: white; }
+.top-btn:hover { background-color: #725d45; }
 
 .edit-btn-diary {
-    background-color: transparent;
-    border: 1.5px solid var(--accent-bubu-brown);
-    color: var(--accent-bubu-brown);
-    margin-top: 15px;
-    align-self: flex-end; /* Nằm dưới, bên phải */
+    background-color: transparent; border: 1.5px solid var(--accent-bubu-brown); color: var(--accent-bubu-brown);
+    margin-top: 15px; align-self: flex-end; 
 }
+.edit-btn-diary:hover { background-color: #725d45; color: white; transform: translateY(-2px); }
 
-.edit-btn-diary:hover {
-    background-color: #725d45;
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* Nút lật trang Paw Print */
-.main-nav-buttons {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 30px;
-    box-sizing: border-box;
-    pointer-events: none;
-    z-index: 10;
-}
-
+/* NÚT LẬT TRANG PAW PRINT */
 .nav-arrow-paw {
-    background-color: var(--accent-dudu-pink);
-    color: white;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 2.1em;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transition: background 0.2s, transform 0.2s;
-    pointer-events: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: var(--accent-dudu-pink); color: white; border: 2px solid #fff;
+    border-radius: 50%; width: 65px; height: 65px; font-size: 2.2em; cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: background 0.2s, transform 0.2s;
+    display: flex; justify-content: center; align-items: center; flex-shrink: 0; 
 }
+.nav-arrow-paw:hover { background-color: #f87171; }
 
-.nav-arrow-paw:hover {
-    background-color: #f87171;
-}
+/* ANIMATION */
+.pulse-btn:hover { animation: btnPulse 0.5s infinite alternate; }
+@keyframes btnPulse { 0% { transform: scale(1); } 100% { transform: scale(1.06); } }
+.wobble-btn:hover { animation: btnWobble 0.3s ease-in-out; }
+@keyframes btnWobble { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } 100% { transform: rotate(0deg); } }
+.pulse-on-play.playing { animation: musicPulse 0.8s infinite alternate ease-in-out; }
+@keyframes musicPulse { 0% { transform: scale(1); } 100% { transform: scale(1.15); color: #f87171; } }
 
-/* === KEYFRAMES ANIMATION === */
-
-/* Phồng lên nhẹ (Thêm trang) */
-.pulse-btn:hover {
-    animation: btnPulse 0.5s infinite alternate;
+/* HIỆU ỨNG KÉO THẢ FILE */
+.drop-zone {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
-@keyframes btnPulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.06); }
-}
-
-/* Lắc lư nhẹ (Paw Buttons) */
-.wobble-btn:hover {
-    animation: btnWobble 0.3s ease-in-out;
-}
-@keyframes btnWobble {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-10deg); }
-    75% { transform: rotate(10deg); }
-    100% { transform: rotate(0deg); }
-}
-
-/* Đập (Music Trái tim) */
-.pulse-on-play.playing {
-    animation: musicPulse 0.8s infinite alternate ease-in-out;
-}
-@keyframes musicPulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.15); color: #f87171; }
+.drop-zone.drag-over {
+    border: 2px dashed var(--accent-dudu-pink);
+    background-color: rgba(252, 165, 165, 0.2);
+    border-radius: 15px;
+    transform: scale(1.02);
 }

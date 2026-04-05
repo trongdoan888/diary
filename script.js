@@ -1,46 +1,56 @@
-// DỮ LIỆU MẪU NHẬT KÝ KHỔNG LỒ
+// DỮ LIỆU MẪU (Có Lyrics)
 const defaultDiaryPages = [
     {
         id: 1,
-        image: "assets/img/bubu_dudu_concept.png", // Bạn có thể thay bằng GIF động thực tế
+        image: "assets/img/bubu_dudu_concept.png", 
         message: "Hôm nay hai đứa cùng nhau vẽ tranh, Bubu vẽ trái tim thật đẹp. Tự hào về bản thân vì đã luôn cố gắng.",
-        music: "assets/music/music_1.mp3"
+        music: "assets/music/music_1.mp3",
+        lyrics: "♪ Từng nhịp đập con tim...\n♪ Bubu và Dudu mãi bên nhau."
     },
     {
         id: 2,
         image: "assets/img/bubu_dudu_concept.png", 
         message: "Step 1: Gắn Thẻ... Hãy ghi lại kỷ niệm mới của bạn. Quyển nhật ký khổng lồ này thật tuyệt!",
-        music: "assets/music/music_1.mp3"
+        music: "assets/music/music_1.mp3",
+        lyrics: "♪ La la la...\n♪ Một ngày mới nắng lên."
     }
 ];
 
-// Khôi phục từ localStorage hoặc sử dụng mặc định
+// Khôi phục từ localStorage
 let diaryPages = JSON.parse(localStorage.getItem('bubuDuduDiary')) || defaultDiaryPages;
 let currentPageIndex = 0;
 
-// Lấy các phần tử DOM
+// Lấy DOM
 const pageImage = document.getElementById('page-image');
 const pageMessageDisplay = document.getElementById('page-message-display');
+const pageLyricsDisplay = document.getElementById('page-lyrics-display');
 const pageNumberLeft = document.getElementById('page-number-display-left');
 const pageNumberRight = document.getElementById('page-number-display-right');
+
 const editBtn = document.getElementById('edit-btn');
 const editTextarea = document.getElementById('edit-textarea');
+const editImageUrl = document.getElementById('edit-image-url');
+const editLyrics = document.getElementById('edit-lyrics');
+
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const addPageBtn = document.getElementById('add-page-btn');
 
-// Phần tử thanh âm nhạc
 const pageAudio = document.getElementById('page-audio');
 const playPauseBtn = document.getElementById('play-pause-btn');
 const progressContainer = document.querySelector('.progress-container');
 const progressFill = document.getElementById('progress-fill');
 const progressSeeker = document.getElementById('progress-seeker');
 
-// HÀM HIỂN THỊ TRANG CHÍNH (Updated)
+const imageDropZone = document.getElementById('image-drop-zone');
+const musicDropZone = document.getElementById('music-drop-zone');
+
+// HÀM HIỂN THỊ
 function renderPage(index) {
     if (diaryPages.length === 0) {
         pageImage.src = "assets/img/bubu_dudu_concept.png";
         pageMessageDisplay.textContent = "Chưa có trang nhật ký nào. Nhấn Thêm trang mới nhé!";
+        pageLyricsDisplay.textContent = "";
         pageNumberLeft.textContent = "";
         pageNumberRight.textContent = "";
         pageAudio.src = "";
@@ -49,38 +59,40 @@ function renderPage(index) {
 
     const page = diaryPages[index];
     
-    // Cập nhật nội dung
-    pageImage.src = page.image;
+    pageImage.src = page.image || "assets/img/bubu_dudu_placeholder.png";
     pageMessageDisplay.textContent = page.message;
-    pageNumberLeft.textContent = `Page ${index + 1}`;
-    pageNumberRight.textContent = `Page ${index + 2}`; // Konzeptually next page
+    pageLyricsDisplay.textContent = page.lyrics || "♪ Chưa có lời bài hát ♪";
     
-    // Đảm bảo textarea chỉnh sửa được reset
+    pageNumberLeft.textContent = `Page ${index * 2 + 1}`;
+    pageNumberRight.textContent = `Page ${index * 2 + 2}`;
+    
     editTextarea.value = page.message;
+    editImageUrl.value = page.image || "";
+    editLyrics.value = page.lyrics || "";
+
+    // Chế độ XEM
     pageMessageDisplay.classList.remove('hidden');
     editTextarea.classList.add('hidden');
+    pageLyricsDisplay.classList.remove('hidden');
+    editLyrics.classList.add('hidden');
+    editImageUrl.classList.add('hidden');
     editBtn.innerHTML = '<i class="fas fa-edit"></i> Chỉnh sửa';
 
-    // XỬ LÝ ÂM NHẠC KHI LẬT TRANG
+    // Nhạc
     pageAudio.pause(); 
     pageAudio.currentTime = 0; 
-    pageAudio.src = page.music; 
-    pageAudio.load(); 
+    pageAudio.src = page.music || ""; 
+    if(pageAudio.src) pageAudio.load(); 
 
     updatePlayPauseIcon(false);
     updateProgressBar(0);
 }
 
-// === LOGIC THANH ÂM NHẠC TÙY CHỈNH ===
-
-// Play/Pause
+// LOGIC ÂM NHẠC
 playPauseBtn.addEventListener('click', () => {
     if (diaryPages.length === 0 || !pageAudio.src) return;
-
     if (pageAudio.paused) {
-        pageAudio.play()
-            .then(() => updatePlayPauseIcon(true))
-            .catch(error => console.error("Lỗi phát nhạc:", error));
+        pageAudio.play().then(() => updatePlayPauseIcon(true)).catch(e => console.error(e));
     } else {
         pageAudio.pause();
         updatePlayPauseIcon(false);
@@ -89,36 +101,22 @@ playPauseBtn.addEventListener('click', () => {
 
 function updatePlayPauseIcon(isPlaying) {
     playPauseBtn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-heart"></i>';
-    if (isPlaying) {
-        playPauseBtn.classList.add('playing');
-    } else {
-        playPauseBtn.classList.remove('playing');
-    }
+    if (isPlaying) playPauseBtn.classList.add('playing');
+    else playPauseBtn.classList.remove('playing');
 }
 
-// Cập nhật thanh progress
 pageAudio.addEventListener('timeupdate', () => {
     if (!pageAudio.duration) return;
-    const percentage = (pageAudio.currentTime / pageAudio.duration) * 100;
-    updateProgressBar(percentage);
+    updateProgressBar((pageAudio.currentTime / pageAudio.duration) * 100);
 });
 
-function updateProgressBar(percentage) {
-    progressFill.style.width = `${percentage}%`;
-    progressSeeker.style.left = `${percentage}%`;
-}
-
-// Logic khi kéo thanh progress
 progressContainer.addEventListener('click', (e) => {
     if (!pageAudio.duration) return;
     const rect = progressContainer.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const percentage = offsetX / rect.width;
-    pageAudio.currentTime = percentage * pageAudio.duration;
+    pageAudio.currentTime = ((e.clientX - rect.left) / rect.width) * pageAudio.duration;
 });
 
-// === LOGIC ĐIỀU HƯỚNG & CHỈNH SỬA ===
-
+// ĐIỀU HƯỚNG
 prevBtn.addEventListener('click', () => {
     if (currentPageIndex > 0) {
         currentPageIndex--;
@@ -133,26 +131,31 @@ nextBtn.addEventListener('click', () => {
     }
 });
 
+// CHỈNH SỬA & LƯU
 editBtn.addEventListener('click', () => {
     if (diaryPages.length === 0) return;
 
     const isEditing = !editTextarea.classList.contains('hidden');
     
     if (isEditing) {
-        const newMessage = editTextarea.value.trim();
-        if (newMessage !== "") {
-            diaryPages[currentPageIndex].message = newMessage;
+        diaryPages[currentPageIndex].message = editTextarea.value.trim();
+        diaryPages[currentPageIndex].image = editImageUrl.value.trim();
+        diaryPages[currentPageIndex].lyrics = editLyrics.value.trim();
+        
+        try {
             localStorage.setItem('bubuDuduDiary', JSON.stringify(diaryPages));
-            pageMessageDisplay.textContent = newMessage;
+        } catch (err) {
+            alert("Lỗi: Dữ liệu quá lớn để lưu. (Trình duyệt giới hạn 5MB).");
         }
-        pageMessageDisplay.classList.remove('hidden');
-        editTextarea.classList.add('hidden');
-        editBtn.innerHTML = '<i class="fas fa-edit"></i> Chỉnh sửa';
+        renderPage(currentPageIndex); 
     } else {
-        editTextarea.value = diaryPages[currentPageIndex].message;
         pageMessageDisplay.classList.add('hidden');
         editTextarea.classList.remove('hidden');
-        editBtn.innerHTML = '<i class="fas fa-save"></i> Lưu trang này';
+        pageLyricsDisplay.classList.add('hidden');
+        editLyrics.classList.remove('hidden');
+        editImageUrl.classList.remove('hidden'); 
+        
+        editBtn.innerHTML = '<i class="fas fa-save"></i> Lưu lại';
         editTextarea.focus();
     }
 });
@@ -160,9 +163,10 @@ editBtn.addEventListener('click', () => {
 addPageBtn.addEventListener('click', () => {
     const defaultPage = {
         id: Date.now(),
-        image: "assets/img/bubu_dudu_concept.png", // conceptual placeholder
-        message: "Kỷ niệm mới của bạn. Quyển nhật ký này thật tuyệt!",
+        image: "assets/img/bubu_dudu_concept.png", 
+        message: "Kỷ niệm mới của bạn...",
         music: "assets/music/music_1.mp3",
+        lyrics: "♪ Nhập lời bài hát vào đây..."
     };
     diaryPages.push(defaultPage);
     localStorage.setItem('bubuDuduDiary', JSON.stringify(diaryPages));
@@ -170,5 +174,87 @@ addPageBtn.addEventListener('click', () => {
     renderPage(currentPageIndex);
 });
 
-// Khởi tạo trang đầu tiên
+// ==========================================
+// DRAG & DROP FILE ẢNH VÀ NHẠC
+// ==========================================
+if (imageDropZone && musicDropZone) {
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        imageDropZone.addEventListener(eventName, preventDefaults, false);
+        musicDropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        imageDropZone.addEventListener(eventName, () => imageDropZone.classList.add('drag-over'), false);
+        musicDropZone.addEventListener(eventName, () => musicDropZone.classList.add('drag-over'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        imageDropZone.addEventListener(eventName, () => imageDropZone.classList.remove('drag-over'), false);
+        musicDropZone.addEventListener(eventName, () => musicDropZone.classList.remove('drag-over'), false);
+    });
+
+    // XỬ LÝ ẢNH
+    imageDropZone.addEventListener('drop', (e) => {
+        if (diaryPages.length === 0) return;
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64Data = event.target.result;
+                pageImage.src = base64Data;
+                if (!editImageUrl.classList.contains('hidden')) editImageUrl.value = base64Data;
+                
+                diaryPages[currentPageIndex].image = base64Data;
+                try { localStorage.setItem('bubuDuduDiary', JSON.stringify(diaryPages)); } 
+                catch (err) { alert("Lỗi: File ảnh quá lớn (vượt quá 5MB)."); }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // XỬ LÝ NHẠC
+    musicDropZone.addEventListener('drop', (e) => {
+        if (diaryPages.length === 0) return;
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('audio/')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64Audio = event.target.result;
+                pageAudio.src = base64Audio;
+                pageAudio.load();
+                diaryPages[currentPageIndex].music = base64Audio;
+                try { localStorage.setItem('bubuDuduDiary', JSON.stringify(diaryPages)); } 
+                catch (err) { console.warn("Nhạc quá lớn để lưu."); }
+            };
+            reader.readAsDataURL(file);
+
+            if (window.jsmediatags) {
+                window.jsmediatags.read(file, {
+                    onSuccess: function(tag) {
+                        let extractedLyrics = "";
+                        if (tag.tags.lyrics) extractedLyrics = tag.tags.lyrics.lyrics;
+                        else if (tag.tags.USLT) extractedLyrics = tag.tags.USLT.text;
+                        
+                        if (extractedLyrics) {
+                            pageLyricsDisplay.textContent = extractedLyrics;
+                            if (!editLyrics.classList.contains('hidden')) editLyrics.value = extractedLyrics;
+                            diaryPages[currentPageIndex].lyrics = extractedLyrics;
+                            try { localStorage.setItem('bubuDuduDiary', JSON.stringify(diaryPages)); } catch(err) {}
+                            
+                            playPauseBtn.style.color = '#10b981';
+                            setTimeout(() => playPauseBtn.style.color = '', 1500);
+                        } else {
+                            alert("File nhạc này không có gắn sẵn lời bài hát.");
+                        }
+                    },
+                    onError: function(error) { console.log(error); }
+                });
+            }
+        }
+    });
+}
+
+// KHỞI ĐỘNG
 renderPage(currentPageIndex);
